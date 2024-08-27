@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Profile from './Profile';  // Import the Profile component
-import './FacultyHome.css'; // Import CSS for FacultyHome
+import Sidebar from './Sidebar';
+import Profile from './Profile';
 
 function FacultyHome() {
   const navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Clear the token from localStorage
-    navigate('/faculty/login'); // Redirect to the login page
+    localStorage.removeItem('token');
+    navigate('/faculty/login');
+  };
+
+  const handleProfileClick = () => {
+    setShowProfile(true);
   };
 
   return (
-    <div className="faculty-home">
-      <aside className="sidebar">
-        <Profile />
-        {/* Add more sidebar items here if needed */}
-      </aside>
-      <main className="content">
+    <div>
+      <Sidebar onProfileClick={handleProfileClick} />
+      <div style={{ marginLeft: '220px', padding: '20px' }}>
         <h2>Welcome to the Faculty Home Page!</h2>
         <button onClick={handleLogout}>Logout</button>
-      </main>
+        {showProfile && <Profile />}
+      </div>
     </div>
   );
 }
